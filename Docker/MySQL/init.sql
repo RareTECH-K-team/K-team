@@ -1,0 +1,33 @@
+
+DROP DATABASE woprchatapp;
+DROP USER 'testuser';
+
+CREATE USER 'testuser' IDENTIFIED BY 'testuser';
+CREATE DATABASE woprchatapp;
+USE woprchatapp
+GRANT ALL PRIVILEGES ON woprchatapp.* TO 'testuser';
+
+CREATE TABLE users (
+    uid VARCHAR(255) PRIMARY KEY,
+    user_name VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE channels (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    uid VARCHAR(255) NOT NULL,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    abstract VARCHAR(255),
+    FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE
+);
+
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    uid VARCHAR(255) NOT NULL,
+    cid INT NOT NULL,
+    message TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE,
+    FOREIGN KEY (cid) REFERENCES channels(id) ON DELETE CASCADE
+);
