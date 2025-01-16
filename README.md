@@ -1,5 +1,5 @@
 # ハッカソン（入門コース） K-team
-ハッカソンの初級者コース用のChatAppです。
+ハッカソンの入門コースKチームのChatAppです。
 
 **最初に環境変数ファイル（.env）を作成します**
 - Mac、Windows(PowerShell、Git Bash)の場合
