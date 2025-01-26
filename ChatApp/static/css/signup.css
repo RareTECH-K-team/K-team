@@ -1,0 +1,105 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #66F7FF;
+    margin: 0;
+    padding: 0;
+}
+
+/* アプリ名を左上端に固定 */
+.app-name {
+    position: absolute;  /* 絶対配置 */
+    top: 0;              /* 画面の上端に配置 */
+    left: 0;             /* 画面の左端に配置 */
+    margin: 0;           /* 余白なし */
+    padding: 1rem;       /* 少し内側に余白を追加（調整可能） */
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 70px;
+}
+
+.app-name span {
+    font-size: 18px;
+}
+
+
+ 
+
+
+/* コンテナ */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    border-radius: 10px;
+    padding-top: 50px; /* アプリ名の高さ分を考慮 */
+}
+
+
+/* フォームコンテナ */
+.form-container {
+    background-color: #FFFAFE;
+    padding: 20px;
+    border-radius: 10px;
+    width: 55vw;
+    height: 75vh;
+    text-align: center;
+}
+
+/* フォームラベルと入力フィールド */
+form label {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+form input {
+    width: 55%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1.5px solid #000000;
+    border-radius: 10px;
+}
+
+.flashes {
+    margin: 0;
+    padding-inline-start: 0;
+    text-align: center;
+    font-size: 18px;
+    color: rgb(198, 8, 8);
+  }
+  
+
+/* ボタンのスタイル */
+.register-button {
+    background-color: #FFE2E2;
+    color: #000;
+    border: none;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 57%;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: bold;	
+}
+.register-button:hover {
+    background-color: #ffa8a8;
+}
+
+/* 管理者リンク */
+.admin-link {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;	
+}
+
+.admin-link:hover {
+    text-decoration: underline;
+}
