@@ -1,0 +1,152 @@
+/* ログイン画面のCSS */
+
+/* ボディ部分 */
+body {
+    margin: auto;
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(90deg, rgba(102, 232, 255, 0.5) 39.45%, rgba(247, 198, 219, 0.5) 59.18%);
+}
+
+/* 右上の画像 */
+.auth-right-background {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    right: 2rem;
+    top: 1rem;
+}
+
+/* 左下の画像 */
+.auth-left-background {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    left: 2rem;
+    bottom: 1rem;
+}
+
+/* アプリ名 */
+.app-name {
+    position: absolute;
+    left: 2rem;
+    margin: 0;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 70px;
+}
+
+/* アプリ名小 */
+.app-name span {
+    font-size: 18px;
+}
+
+/* form部分 */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 60%;
+    width: 70%;
+    margin: auto;
+}
+
+/* ログインボックス */
+.login-box {
+    position: absolute;
+    width: 800px;
+    height: 460px;
+    left: calc(50% - 800px/2 + 0.5px);
+    top: calc(50% - 460px/2 + 0.5px);
+    background: #FFFBFB;
+    opacity: 0.65;
+    border-radius: 20px;
+}
+
+/* emailラベル */
+.label-email {
+    position: absolute;
+    left: calc(50% - 136px/2 - 147px);
+    top: 3rem;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+/* email入力ボックス */
+#email-input {
+    box-sizing: border-box;
+    position: absolute;
+    width: 444px;
+    height: 40px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 5rem;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+
+/* passwordラベル */
+.label-password {
+    position: absolute;
+    left: calc(50% - 136px/2 - 147px);
+    top: 10rem;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+/* password入力ボックス */
+#password-input {
+    box-sizing: border-box;
+    position: absolute;
+    width: 444px;
+    height: 40px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 12rem;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+
+/*  */
+.auth-button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.li-message {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 250px;
+}
+
+/* ログインボタン */
+.auth-button-bluegreen {
+    position: absolute;
+    width: 444px;
+    height: 43px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 20rem;
+    font-size: 24px;
+    align-items: center;
+    color: #000000;
+    background: #89FFDC;
+    border-radius: 10px;
+}
+
+/*  */
+.flashes {
+    margin: 0;
+    padding-inline-start: 0;
+    text-align: center;
+    font-size: 18px;
+    color: red;
+}
