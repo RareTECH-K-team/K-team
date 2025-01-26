@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録</title>
+    <link rel="stylesheet" href="../../static/css/signup.css">
+    <link rel="icon" href="../../static/img/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;900&family=M+PLUS+1:wght@200&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form action="/signup" method="post">
+                <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
+                <label for="username">ユーザー名</label>
+                <input type="text" id="username" name="username" required>
+                <label for="email">メールアドレス</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">パスワード</label>
+                <input type="password" id="password" name="password" required>
+                <label for="confirm-password">パスワード確認</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                <div class="auth-button-container">
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                <ul class="flashes">
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %} {% endwith %}
+                </div> 
+                <button type="submit" class="register-button">新規登録</button>
+            </form>
+            <a href="/admin_dashboard.html" class="admin-link">管理者画面に戻る</a>
+        </div>
+    </div>
+</body>
+</html>
