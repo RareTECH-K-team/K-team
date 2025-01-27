@@ -1,0 +1,65 @@
+/* ボディ部分 */
+body {
+    box-sizing: border-box;
+    position: relative;
+    margin: auto;
+    min-height: 100vh;
+    width: 100vw;
+    background: #FFFFFF;
+    border: 5px solid #66E8FF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* ヘッダー部分 */
+.header-inner{
+    height: 80px;
+    display:flex;
+    align-items: center;
+    background-color: #66E8FF;
+}
+
+/* アプリ名 */
+.app-name {
+    position: absolute;
+    left: 2rem;
+    margin: 0;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 70px;
+}
+
+/* アプリ名小 */
+.app-name span {
+    font-size: 18px;
+}
+
+.header-chatroom-name {
+    position: absolute;
+    width: 100vw;
+    top: 0px;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+}
+
+.channel-icon-header1 {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 7rem;
+    margin: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+.channel-icon-header2 {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 2rem;
+    margin: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+}
