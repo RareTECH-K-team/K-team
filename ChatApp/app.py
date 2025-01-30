@@ -20,15 +20,61 @@ app.permanent_session_lifetime = timedelta(days=SESSION_DAYS)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 2678400
 # bundle_css_files(app)
 
+#ルートページのリダイレクト処理
+@app.route('/',methods=['GET'])
+def index():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    return redirect(url_for('channels_view'))
+    
+
+# サインアップページの表示
+@app.route('/signup', methods=['GET'])
+def signup_view():
+    return render_template('auth/signup.html')
+
+
+# サインアップ処理
+@app.route('/signup', methods=['POST'])
+def signup_process():
+    user_name = request.form.get('username')
+    print(user_name)
+    email = request.form.get('email')
+    password = request.form.get('password')
+    passwordConfirmation = request.form.get('confirm-password')
+
+    if user_name == '' or email == '' or password == '' or passwordConfirmation == '':
+        flash('空のフォームがあるようです')
+    elif password != passwordConfirmation:
+        flash('二つのパスワードの値が違っています')
+    elif re.match(EMAIL_PATTERN, email) is None:
+        flash('正しいメールアドレスの形式ではありません')
+    else:
+        user_id = uuid.uuid4()
+        password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        registered_user = User.find_by_email(email)
+
+        if registered_user != None:
+            flash('既に登録されているようです')
+        else:
+            User.create(user_name, email, password)
+            UserId = str(user_id)
+            session['user_id'] = UserId
+            session['role'] = 'general_user'
+            return redirect(url_for('channels_view'))
+        return redirect(url_for('signup_process'))
+
+
 # アクセス権限がない場合の画面
 @app.route('/access_denied', methods=['GET'])
 def access_denied():
-    return render_template('access_denied.html')
+    return render_template('auth/access_denied.html')
 
 # ログイン画面の表示
 @app.route('/login', methods=['GET'])
 def login_view():
-    return render_template('login.html')
+    return render_template('auth/login.html')
 
 # ログイン処理
 @app.route('/login', methods=['POST'])
@@ -83,7 +129,7 @@ def admin_dashboard():
 # チャンネル画面（一般ユーザー）
 @app.route('/channels', methods=['GET'])
 def channels_view():
-    if session.get('role') != 'user':
+    if session.get('role') != 'general_user':
         flash('一般ユーザーのみアクセス可能です。')
         return redirect(url_for('access_denied'))
     return render_template('channels.html')
