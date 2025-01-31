@@ -15,7 +15,7 @@
     <div class="auth-container">
         <img src="../../static/img/login1.png" class="auth-right-background" />
         <img src="../../static/img/login2.png" class="auth-left-background" />
-        <form class="auth-from" method="post"></form>
+        <form action="/login" class="auth-from" method="post">
             <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
             <div class="login-box">
                 <div>
@@ -44,7 +44,7 @@
                         {% endfor %}
                     </ul>
                     {% endif %} {% endwith %}
-                    <button class="auth-button-bluegreen">ログイン</button>
+                    <button type="submit" class="auth-button-bluegreen">ログイン</button>
                 </div>
             </div>
         </form>
