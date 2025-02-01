@@ -27,7 +27,6 @@ def index():
     if user_id is None:
         return redirect(url_for('login_view'))
     return redirect(url_for('channels_view'))
-    
 
 # サインアップページの表示
 @app.route('/signup', methods=['GET'])
@@ -116,7 +115,11 @@ def login_process():
         flash('不正な権限が検出されました。')
         return redirect(url_for('access_denied'))
 
-
+# ログアウト処理
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login_view'))
 
 # 管理者ダッシュボード
 @app.route('/admin_dashboard', methods=['GET'])

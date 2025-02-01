@@ -47,7 +47,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    min-height: 60%;
+    min-height: 160%;
     width: 70%;
     margin: auto;
 }
@@ -112,21 +112,15 @@ body {
     border-radius: 10px;
 }
 
-/*  */
+/* 入力内容エラーメッセージ部分 */
 .auth-button-container {
+    min-height: 160%;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.li-message {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 250px;
-}
 
 /* ログインボタン */
 .auth-button-bluegreen {
@@ -136,13 +130,19 @@ body {
     left: calc(50% - 444px/2 + 1px);
     top: 20rem;
     font-size: 24px;
-    align-items: center;
     color: #000000;
-    background: #89FFDC;
+    align-items: center;
+    background: #a3f7ff;
+    border: none;
     border-radius: 10px;
 }
 
-/*  */
+/* ログインボタンにカーソルがある時 */
+.auth-button-bluegreen:hover {
+    background-color: #69ffd2;
+}
+
+/* 入力内容エラーメッセージ色 */
 .flashes {
     margin: 0;
     padding-inline-start: 0;
