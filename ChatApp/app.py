@@ -4,7 +4,7 @@ import hashlib
 import uuid
 import re
 import os
-from models import User
+from models import User, Channel
 # from assets import bundle_css_files # type: ignore
 
 # 定数定義
@@ -27,6 +27,7 @@ def index():
     if user_id is None:
         return redirect(url_for('login_view'))
     return redirect(url_for('channels_view'))
+    
 
 # サインアップページの表示
 @app.route('/signup', methods=['GET'])
@@ -103,39 +104,48 @@ def login_process():
         return redirect(url_for('access_denied'))
 
     # ログイン成功
-    session['uid'] = user['uid']
-    session['role'] = user.get('role', 'user')  # ユーザーの役割を保存
-
-    # 役割に応じてリダイレクト
-    if session['role'] == 'admin':
+    session['uid'] = user['user_id']
+    if user['is_admin'] == True:
+        session['role'] = 'admin'
         return redirect(url_for('admin_dashboard'))
-    elif session['role'] == 'user':
-        return redirect(url_for('channels_view'))
+    elif user['is_admin'] == False:
+        session['role'] = 'general_user' 
+        return redirect(url_for('work_channels_view'))
     else:
-        flash('不正な権限が検出されました。')
         return redirect(url_for('access_denied'))
-
-# ログアウト処理
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login_view'))
+    
 
 # 管理者ダッシュボード
 @app.route('/admin_dashboard', methods=['GET'])
 def admin_dashboard():
-    if session.get('role') != 'admin':
+    if session.get('role') != '':
         flash('管理者のみアクセス可能です。')
         return redirect(url_for('access_denied'))
     return render_template('admin_dashboard.html')
 
-# チャンネル画面（一般ユーザー）
-@app.route('/channels', methods=['GET'])
-def channels_view():
+# チャンネル画面（一般ユーザー_work）
+@app.route('/works_channels', methods=['GET'])
+def work_channels_view():
+    if session.get('role') != 'general_user':
+        print(session.get('role'))
+        return redirect(url_for('access_denied'))
+    else:
+        work_channels = Channel.get_all(1)
+        work_channels.reverse()
+        print(work_channels)
+        return render_template('util/work_channels.html', channels = work_channels)
+
+# チャンネル画面（一般ユーザー_private）
+@app.route('/private_channels', methods=['GET'])
+def private_channels_view():
     if session.get('role') != 'general_user':
         flash('一般ユーザーのみアクセス可能です。')
         return redirect(url_for('access_denied'))
-    return render_template('channels.html')
+    else:
+        private_channels = Channel.get_all(2)
+        private_channels.reverse()
+        print(private_channels)
+        return render_template('util/private_channels.html', channels = private_channels)
 
 # アプリケーション起動
 if __name__ == '__main__':
