@@ -74,6 +74,7 @@ class Channel:
         finally:
             db_pool.release(conn)
 
+
     @classmethod
     def get_all(cls, distinction_type_id):
         conn = db_pool.get_conn()
@@ -117,6 +118,7 @@ class Channel:
             abort(500)
         finally:
             db_pool.release(conn)
+
 
     @classmethod
     def update(cls, new_channel_name, distinction_type_id,):
