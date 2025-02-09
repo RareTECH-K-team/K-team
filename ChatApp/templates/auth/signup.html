@@ -12,28 +12,31 @@
 </head>
 <body>
     <div class="container">
+        <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
         <div class="form-container">
             <form action="/signup" method="post">
-                <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
-                <label for="username">ユーザー名</label>
-                <input type="text" id="username" name="username" required>
-                <label for="email">メールアドレス</label>
-                <input type="email" id="email" name="email" required>
-                <label for="password">パスワード</label>
-                <input type="password" id="password" name="password" required>
-                <label for="confirm-password">パスワード確認</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
-                <div class="auth-button-container">
-                {% with messages = get_flashed_messages() %} {% if messages %}
-                <ul class="flashes">
-                  {% for message in messages %}
-                  <li>{{ message }}</li>
-                  {% endfor %}
-                </ul>
-                {% endif %} {% endwith %}
-                </div> 
+                <label class="label-username" for="username">ユーザー名</label>
+                <input type="text" id="username" name="username" required/>
+                <label class="label-email" for="email">メールアドレス</label>
+                <input type="email" id="email" name="email" required/>
+                <label class="label-password" for="password">パスワード</label>
+                <input type="password" id="password" name="password" required/>
+                <label class="label-confirm-password" for="confirm-password">パスワード確認</label>
+                <input type="password" id="confirm-password" name="confirm-password" required/>
                 <button type="submit" class="register-button">新規登録</button>
             </form>
+            <!-- フラッシュメッセージの表示を上に移動 -->
+            <div class="flashes-container">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
             <a href="/admin_dashboard.html" class="admin-link">管理者画面に戻る</a>
         </div>
     </div>
