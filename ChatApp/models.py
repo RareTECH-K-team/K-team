@@ -26,15 +26,15 @@ class User:
         conn = db_pool.get_conn()
         try:
                 with conn.cursor() as cur:
-                     sql = "SELECT * FROM users WHERE email=%s;"
-                     cur.execute(sql, (email,))
-                     user = cur.fetchone()
+                    sql = "SELECT * FROM users WHERE email=%s;"
+                    cur.execute(sql, (email,))
+                    user = cur.fetchone()
                 return user
         except pymysql.Error as e:
-             print(f'エラーが発生しています：{e}')
-             abort(500)
+            print(f'エラーが発生しています：{e}')
+            abort(500)
         finally:
-             db_pool.release(conn)
+            db_pool.release(conn)
 
 
     @staticmethod
@@ -74,7 +74,7 @@ class Channel:
         finally:
             db_pool.release(conn)
 
-    
+
     @classmethod
     def get_all(cls, distinction_type_id):
         conn = db_pool.get_conn()
@@ -102,7 +102,7 @@ class Channel:
             print(f'エラーが発生しています：{e}')
             abort(500)
         finally:
-            db_pool.release(conn)   
+            db_pool.release(conn)
 
     @classmethod
     def find_by_name(cls, channels_name):
@@ -147,3 +147,4 @@ class Channel:
             abort(500)
         finally:
             db_pool.release(conn)
+

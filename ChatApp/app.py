@@ -29,6 +29,7 @@ def index():
     return redirect(url_for('channels_view'))
     
 
+
 # サインアップページの表示
 @app.route('/signup', methods=['GET'])
 def signup_view():
@@ -71,10 +72,12 @@ def signup_process():
 def access_denied():
     return render_template('auth/access_denied.html')
 
+
 # ログイン画面の表示
 @app.route('/login', methods=['GET'])
 def login_view():
     return render_template('auth/login.html')
+
 
 # ログイン処理
 @app.route('/login', methods=['POST'])
@@ -109,11 +112,23 @@ def login_process():
         session['role'] = 'admin'
         return redirect(url_for('admin_dashboard'))
     elif user['is_admin'] == False:
+        session['role'] = 'general_user'
+        return redirect(url_for('work_channels_view'))
+    else:
+        return redirect(url_for('access_denied'))
+
+
+# ログアウト処理
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login_view'))
         session['role'] = 'general_user' 
         return redirect(url_for('work_channels_view'))
     else:
         return redirect(url_for('access_denied'))
-    
+
+
 
 # 管理者ダッシュボード
 @app.route('/admin_dashboard', methods=['GET'])
@@ -122,6 +137,7 @@ def admin_dashboard():
         flash('管理者のみアクセス可能です。')
         return redirect(url_for('access_denied'))
     return render_template('admin_dashboard.html')
+
 
 # チャンネル画面（一般ユーザー_work）
 @app.route('/works_channels', methods=['GET'])
@@ -135,6 +151,7 @@ def work_channels_view():
         print(work_channels)
         return render_template('util/work_channels.html', channels = work_channels)
 
+
 # チャンネル画面（一般ユーザー_private）
 @app.route('/private_channels', methods=['GET'])
 def private_channels_view():
@@ -146,6 +163,7 @@ def private_channels_view():
         private_channels.reverse()
         print(private_channels)
         return render_template('util/private_channels.html', channels = private_channels)
+
 
 # アプリケーション起動
 if __name__ == '__main__':
