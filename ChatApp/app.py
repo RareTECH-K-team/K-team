@@ -133,19 +133,64 @@ def work_channels_view():
         work_channels = Channel.get_all(1)
         work_channels.reverse()
         print(work_channels)
-        return render_template('util/work_channels.html', channels = work_channels)
+        return render_template('util/works_channels.html', channels = work_channels)
 
 # チャンネル画面（一般ユーザー_private）
 @app.route('/private_channels', methods=['GET'])
 def private_channels_view():
     if session.get('role') != 'general_user':
-        flash('一般ユーザーのみアクセス可能です。')
+        print(session.get('role'))
         return redirect(url_for('access_denied'))
     else:
         private_channels = Channel.get_all(2)
         private_channels.reverse()
         print(private_channels)
         return render_template('util/private_channels.html', channels = private_channels)
+    
+# チャンネルの作成(work)
+
+#works_channels対応するテンプレートにPOSTメソッドを送る　POSTメソッドはHTTPプロトコルのこと
+#バックエンドとフロントのすみわけ　バックエンドが簡単なHTMLを作ることが多い。
+#そのHTTPにフロントエンドがJAVAscriptを作っていく
+#Flaskとは、162行目の意味を理解する。
+#関数や引数について調べる。
+# HTMLを書くときはbodyblockの中だけでよい。ヘッダーはフロントの仕事
+# しかし、ルーティングはバックエンド担当が多い
+# フロントもバックもFlaskのテンプレートレンダリングを理解して話し合う必要がある 　
+@app.route('/works_channels', methods=['POST']) #works_channelsのテンプレートにPOSTメソッドを送るフォームをHTMLで書く
+#書いた後コンテナを起動してブラウザで実行する。
+def create_work_channels(): #関数を定義している　create_work_channelsという関数が動く flaskの基本について調べる
+    # user_id = session.get('user_id') #user_idが何を
+    # if user_id is None:
+    #     return redirect(url_for('login_view'))
+    user_id = 3 # HTMLが完成したら消して上のuser_id = session.get('user_id')をコメントアウトを戻す。
+    work_channel_name = request.form.get('work_channelTitle')
+    distinction_type_id = 1
+    work_channel = Channel.find_by_name(work_channel_name)
+    if work_channel == None:
+        Channel.create(user_id, work_channel_name, distinction_type_id)
+        return redirect(url_for('work_channels_view'))
+    else:
+        error = '既に同じ名前のチャンネルが存在しています'
+        return render_template('error/error.html', error_message=error) #チームに確認
+
+# チャンネルの作成(private)
+@app.route('/private_channels', methods=['POST'])
+def create_private_channels():
+    # user_id = session.get('user_id')
+    # if user_id in None:
+    #     return redirect(url_for('login_view'))
+    user_id = 4 # HTMLが完成したら消して上のuser_id = session.get('user_id')をコメントアウトを戻す。
+    private_channel_name = request.form.get('private_channelTitle')
+    distinction_type_id = 2
+    private_channel = Channel.find_by_name(private_channel_name)
+    if private_channel == None:
+        Channel.create(user_id, private_channel_name, distinction_type_id)
+        return redirect(url_for('private_channels_view'))
+    else:
+        error = '既に同じ名前のチャンネルが存在しています'
+        return render_template('error/error.html', error_message=error)
+
 
 # アプリケーション起動
 if __name__ == '__main__':
