@@ -4,6 +4,8 @@ from util.DB import DB # type: ignore
 
 db_pool = DB.init_db_pool()
 
+
+
 #ユーザークラス
 class User:
     @classmethod
@@ -147,4 +149,29 @@ class Channel:
             abort(500)
         finally:
             db_pool.release(conn)
+        
 
+class Message:
+    @staticmethod
+    def getMessagesByChannel(channel_id):
+        """
+        指定されたチャンネルのメッセージ一覧を取得する関数を定義
+        """
+        conn = db_pool.get_conn()  
+        try:
+            with conn.cursor(pymysql.cursors.DictCursor) as cur:
+                sql = """
+                SELECT m.id, m.uid, u.user_name, m.message, m.created_at 
+                FROM messages AS m 
+                INNER JOIN users AS u ON m.uid = u.id 
+                WHERE m.channel_id = %s
+                ORDER BY m.created_at ASC;
+                """
+                cur.execute(sql, (channel_id,))  
+                messages = cur.fetchall()  
+                return messages  
+        except pymysql.Error as e:
+            print(f"エラー: {e}")
+            abort(500)  
+        finally:
+            db_pool.release(conn)  

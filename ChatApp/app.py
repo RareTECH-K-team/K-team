@@ -123,10 +123,9 @@ def login_process():
 def logout():
     session.clear()
     return redirect(url_for('login_view'))
-        session['role'] = 'general_user' 
-        return redirect(url_for('work_channels_view'))
-    else:
-        return redirect(url_for('access_denied'))
+    session['role'] = 'general_user' 
+    return redcirect(url_for('work_channels_view'))
+    return redirect(url_for('access_denied'))
 
 
 
@@ -164,6 +163,27 @@ def private_channels_view():
         print(private_channels)
         return render_template('util/private_channels.html', channels = private_channels)
 
+@app.route('/chat/<int:channel_id>/messages', methods=['GET'])
+def chat_view(channel_id):
+    uid = session.get("uid")
+    role = session.get("role")
+
+    if uid is None:
+        return redirect(url_for('login_view'))
+
+    if role not in ['general_user', 'admin']:
+        flash('アクセス権限がありません。')
+        return redirect(url_for('access_denied'))
+
+    # チャンネル情報とメッセージ取得
+    channel = Channel.find_by_channels_id(channel_id)
+    if not channel:
+        flash('チャンネルが存在しません。')
+        return redirect(url_for('access_denied'))
+
+    messages = getMessagesByChannel(channel_id) # type: ignore
+
+    return render_template('chat/chat.html', messages=messages, channel=channel, uid=uid, role=role)
 
 # アプリケーション起動
 if __name__ == '__main__':

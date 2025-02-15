@@ -16,4 +16,4 @@ RUN pip install -U pip && \
 # ソースコードをコンテナにコピー
 COPY . /code/
 # Flaskのアプリケーションを実行
-CMD ["python", "ChatApp/app.py"]
+CMD ["python", "app.py"]
