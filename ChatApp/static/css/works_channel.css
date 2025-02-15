@@ -6,7 +6,7 @@ body {
     min-height: 100vh;
     width: 100vw;
     background: #FFFFFF;
-    border: 5px solid #4794FF;
+    border: 5px solid #66E8FF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -22,7 +22,7 @@ body {
     height: 80px;
     display:flex;
     align-items: center;
-    background-color: #4794FF;
+    background-color: #66E8FF;
 }
 
 /* アプリ名 */
@@ -33,17 +33,25 @@ body {
     font-weight: 400;
     font-size: 35px;
     line-height: 70px;
-    color: #FFFFFF;
 }
 
 /* アプリ名小 */
 .app-name span {
+    position: fixed;
     font-size: 18px;
-    color: #FFFFFF;
+}
+
+.channel-icon-header1 {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    right: 7rem;
+    margin: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
 }
 
 .channel-icon-header2 {
-    height: 57px;
     position: fixed;
     display: flex;
     align-items: center;
@@ -53,31 +61,31 @@ body {
     border-radius: 10px;
 }
 
-.h2 {
-    position: fixed;
-    left: 2rem;
-    margin: 0;
-    font-weight: 400;
-    font-size: 23px;
-    line-height: 70px;
+/* タブメニューのスタイル */
+.tab-menu {
+    display: flex;
+    width: 100%;  /* ヘッダーと幅を揃える */
+    background-color: #fff;
 }
 
-/* ログインボタン */
-.useradd-button {
-    position: absolute;
-    width: 222px;
-    height: 43px;
-    right: 1rem;
-    bottom: 2rem;
-    font-size: 20px;
-    color: #FFFFFF;
-    align-items: center;
-    background: #4794FF;
+
+.tab {
+    flex: 1;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
     border: none;
-    border-radius: 10px;
+    cursor: pointer;
 }
 
-/* ログインボタンにカーソルがある時 */
-.useradd-button:hover {
-    background-color: #3C53FF;
+
+/* タブごとの色を設定 */
+.tab.active {
+    background-color: #56bfd2;  /* 仕事タブ（アクティブ）は水色 */
+}
+
+
+.tab:not(.active) {
+    background-color: #FFC0CB;  /* プライ￥ベートタブはピンク */
 }

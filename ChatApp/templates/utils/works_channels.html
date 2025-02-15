@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビジネスチャンネル一覧画面</title>
+    <link rel="stylesheet" href="../../static/css/works_chat.css">
+    <link rel="icon" href="../../static/img/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;900&family=M+PLUS+1:wght@200&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
+            <div class="channel-icon-header1" id="channel-header">
+                <input type="image" href="{{ url_for('signup_view') }}" src="../../static/img/Home Hashtag.png" class="home-hashtag" />
+            </div>
+            <div class="channel-icon-header2" id="channel-header">
+                <input type="image" href="{{ url_for('login_view') }}" src="../../static/img/Log out.png" class="logout" />
+            </div>
+        </div>
+    </header>
+    <nav class="tab-menu">
+        <button class="tab active">仕事</button>
+        <button class="tab">プライベート</button>
+    </nav>
+
+
+    <main class="channel-container">
+        <div class="channel-list">
+            <div class="channel-tab">チャンネル1</div>
+        </div>
+        <div class="bottom-section">
+            <div class="add-channel">
+                <span>＋</span>
+            </div>
+            <a href="#" class="file-link">ファイル一覧へ</a>
+        </div>
+    </main>
+</body>
+</html>

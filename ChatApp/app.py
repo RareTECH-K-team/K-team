@@ -63,7 +63,7 @@ def signup_process():
             UserId = str(user_id)
             session['user_id'] = UserId
             session['role'] = 'general_user'
-            return redirect(url_for('channels_view'))
+            return redirect(url_for('admin_dashboard'))
         return redirect(url_for('signup_process'))
 
 
@@ -136,7 +136,7 @@ def admin_dashboard():
     if session.get('role') != '':
         flash('管理者のみアクセス可能です。')
         return redirect(url_for('access_denied'))
-    return render_template('admin_dashboard.html')
+    return render_template('auth/admin_dashboard.html')
 
 
 # チャンネル画面（一般ユーザー_work）
@@ -149,7 +149,7 @@ def work_channels_view():
         work_channels = Channel.get_all(1)
         work_channels.reverse()
         print(work_channels)
-        return render_template('util/work_channels.html', channels = work_channels)
+        return render_template('utils/works_channels.html', channels = work_channels)
 
 
 # チャンネル画面（一般ユーザー_private）
@@ -162,8 +162,7 @@ def private_channels_view():
         private_channels = Channel.get_all(2)
         private_channels.reverse()
         print(private_channels)
-        return render_template('util/private_channels.html', channels = private_channels)
-
+        return render_template('utils/private_channels.html', channels = private_channels)
 
 # アプリケーション起動
 if __name__ == '__main__':
