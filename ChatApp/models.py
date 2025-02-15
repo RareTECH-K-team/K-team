@@ -26,15 +26,15 @@ class User:
         conn = db_pool.get_conn()
         try:
                 with conn.cursor() as cur:
-                    sql = "SELECT * FROM users WHERE email=%s;"
-                    cur.execute(sql, (email,))
-                    user = cur.fetchone()
+                     sql = "SELECT * FROM users WHERE email=%s;"
+                     cur.execute(sql, (email,))
+                     user = cur.fetchone()
                 return user
         except pymysql.Error as e:
-            print(f'エラーが発生しています：{e}')
-            abort(500)
+             print(f'エラーが発生しています：{e}')
+             abort(500)
         finally:
-            db_pool.release(conn)
+             db_pool.release(conn)
 
 
     @staticmethod
@@ -61,12 +61,12 @@ class User:
 # チャンネルクラス
 class Channel:
     @classmethod
-    def create(cls, new_channel_name):
+    def create(cls, user_id, new_channel_name, distinction_type_id):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
                 sql = "INSERT INTO channels (user_id, channel_name, distinction_type_id) VALUES (%s, %s, %s);"
-                cur.execute(sql, (new_channel_name,))
+                cur.execute(sql, (user_id, new_channel_name, distinction_type_id))
                 conn.commit()
         except pymysql.Error as e:
             print(f'エラーが発生しています：{e}')
@@ -74,7 +74,7 @@ class Channel:
         finally:
             db_pool.release(conn)
 
-
+    
     @classmethod
     def get_all(cls, distinction_type_id):
         conn = db_pool.get_conn()
@@ -102,14 +102,14 @@ class Channel:
             print(f'エラーが発生しています：{e}')
             abort(500)
         finally:
-            db_pool.release(conn)
+            db_pool.release(conn)   
 
     @classmethod
     def find_by_name(cls, channels_name):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = 'SELECT * FROM channels WHERE name=%s;'
+                sql = 'SELECT * FROM channels WHERE channel_name=%s;'
                 cur.execute(sql, (channels_name,))
                 channel = cur.fetchone()
                 return channel
@@ -147,4 +147,3 @@ class Channel:
             abort(500)
         finally:
             db_pool.release(conn)
-
