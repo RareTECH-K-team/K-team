@@ -164,6 +164,38 @@ def private_channels_view():
         print(private_channels)
         return render_template('utils/private_channels.html', channels = private_channels)
 
+# チャンネルの作成(work)
+@app.route('/works_channels', methods=['POST'])
+def create_work_channels(): 
+    user_id = session.get('user_id') 
+    if user_id is None:
+         return redirect(url_for('login_view'))
+    work_channel_name = request.form.get('work_channelTitle')
+    distinction_type_id = 1
+    work_channel = Channel.find_by_name(work_channel_name)
+    if work_channel == None:
+        Channel.create(user_id, work_channel_name, distinction_type_id)
+        return redirect(url_for('work_channels_view'))
+    else:
+        error = '既に同じ名前のチャンネルが存在しています'
+        return render_template('error/error.html', error_message=error) #チームに確認
+
+# チャンネルの作成(private)
+@app.route('/private_channels', methods=['POST'])
+def create_private_channels():
+    user_id = session.get('user_id')
+    if user_id in None:
+        return redirect(url_for('login_view'))
+    private_channel_name = request.form.get('private_channelTitle')
+    distinction_type_id = 2
+    private_channel = Channel.find_by_name(private_channel_name)
+    if private_channel == None:
+        Channel.create(user_id, private_channel_name, distinction_type_id)
+        return redirect(url_for('private_channels_view'))
+    else:
+        error = '既に同じ名前のチャンネルが存在しています'
+        return render_template('error/error.html', error_message=error)
+    
 # アプリケーション起動
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
