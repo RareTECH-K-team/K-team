@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>管理者画面</title>
+        <link rel="stylesheet" href="../../static/css/admin_dashboard.css">
+        <link rel="icon" href="{{url_for('static',filename='img/favicon.ico')}}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;900&family=M+PLUS+1:wght@200&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-inner">
+                <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
+                    <a class="channel-icon-header2" href="{{ url_for('login_view') }}"><img src="../../static/img/Log out.png" class="logout" /></a>
+            </div>
+        </header>
+        <main class="main-container">
+        </main>
+        <h2 class="h2">ユーザー一覧</h2>
+        <script type="text/javascript">
+            // prettier-ignore
+            const user = JSON.parse('{{ user|tojson }}');
+        </script>
+        <script src="{{url_for('static',filename='js/pagination.js')}}" type="module"></script>
+        <script src="{{url_for('static',filename='js/delete-user.js')}}" type="module"></script>
+        <button type="submit" class="useradd-button">ユーザー追加</button>
+    </body>
+</html>
