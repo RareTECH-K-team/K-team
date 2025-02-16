@@ -196,6 +196,30 @@ def create_private_channels():
         error = '既に同じ名前のチャンネルが存在しています'
         return render_template('error/error.html', error_message=error)
     
+    
+
+@app.route('/chat/<int:channel_id>/messages', methods=['GET'])
+def chat_view(channel_id):
+    uid = session.get("uid")
+    role = session.get("role")
+
+    if uid is None:
+        return redirect(url_for('login_view'))
+
+    if role not in ['general_user', 'admin']:
+        flash('アクセス権限がありません。')
+        return redirect(url_for('access_denied'))
+
+    # チャンネル情報とメッセージ取得
+    channel = Channel.find_by_channels_id(channel_id)
+    if not channel:
+        flash('チャンネルが存在しません。')
+        return redirect(url_for('access_denied'))
+
+    messages = getMessagesByChannel(channel_id) # type: ignore
+
+    return render_template('chat/chat.html', messages=messages, channel=channel, uid=uid, role=role)
+
 # アプリケーション起動
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

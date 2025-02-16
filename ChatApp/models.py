@@ -170,5 +170,7 @@ class Message:
         except pymysql.Error as e:
             print(f"エラー: {e}")
             abort(500)  
+
         finally:
             db_pool.release(conn)  
+
