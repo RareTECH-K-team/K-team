@@ -124,12 +124,17 @@ def login_process():
 def logout():
     session.clear()
     return redirect(url_for('login_view'))
+        session['role'] = 'general_user' 
+        return redirect(url_for('work_channels_view'))
+    else:
+        return redirect(url_for('access_denied'))
+
 
 
 # 管理者ダッシュボード
 @app.route('/admin_dashboard', methods=['GET'])
 def admin_dashboard():
-    if session.get('role') != 'admin':
+    if session.get('role') != '':
         flash('管理者のみアクセス可能です。')
         return redirect(url_for('access_denied'))
     return render_template('auth/admin_dashboard.html')
@@ -159,6 +164,22 @@ def private_channels_view():
         private_channels.reverse()
         print(private_channels)
         return render_template('utils/private_channels.html', channels = private_channels)
+
+# チャンネルの作成(work)
+@app.route('/works_channels', methods=['POST'])
+def create_work_channels(): 
+    user_id = session.get('user_id') 
+    if user_id is None:
+         return redirect(url_for('login_view'))
+    work_channel_name = request.form.get('work_channelTitle')
+    distinction_type_id = 1
+    work_channel = Channel.find_by_name(work_channel_name)
+    if work_channel == None:
+        Channel.create(user_id, work_channel_name, distinction_type_id)
+        return redirect(url_for('work_channels_view'))
+    else:
+        error = '既に同じ名前のチャンネルが存在しています'
+        return render_template('error/error.html', error_message=error) #チームに確認
 
 
 # チャンネルの作成(work)
@@ -237,7 +258,6 @@ def private_chat_view(channel_id):
     print(messages)
     print(user_id)
     return render_template('utils/private_chat.html', messages=messages, channel=channel, user_id=user_id)
-
 
 
 # アプリケーション起動
