@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ビジネスチャンネル一覧画面</title>
-    <link rel="stylesheet" href="../../static/css/works_channel.css">
+    <title>プライベートチャンネル一覧画面</title>
+    <link rel="stylesheet" href="../../static/css/private_channel.css">
     <link rel="icon" href="../../static/img/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,8 +20,8 @@
         </div>
     </header>
     <nav class="tab-menu">
-        <a class="tab-works">WORKS</a>
-        <a class="tab-private" href="{{ url_for('private_channels_view') }}">PRIVATE</a>
+        <a class="tab-works" href="{{ url_for('work_channels_view') }}">WORKS</a>
+        <a class="tab-private">PRIVATE</a>
     </nav>
     <div class="container">
         <ul class="channel-list">
@@ -35,7 +35,7 @@
                     channels.forEach((channels) => {
                         const a = document.createElement("a");
                         const li = document.createElement("li");
-                        const channelURL = `/works_chat/${channels.channel_id}/messages`;
+                        const channelURL = `/private_chat/${channels.channel_id}/messages`;
                         a.innerText = channels.channel_name;
                         a.setAttribute("href", channelURL);
                         li.appendChild(a);
@@ -45,7 +45,6 @@
                 createChannelsList();
             </script>
         </ul>
-        <!--<script src="{{url_for('static',filename='js/pagination.js')}}" type="module"></script> -->
         <div class="add-button" onclick="openModal()">＋</div>
     </div>
     <div class="modal" id="modal">

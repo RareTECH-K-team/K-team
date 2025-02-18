@@ -4,7 +4,7 @@ import hashlib
 import uuid
 import re
 import os
-from models import User, Channel
+from models import User, Channel, Message
 # from assets import bundle_css_files # type: ignore
 
 # 定数定義
@@ -26,7 +26,7 @@ def index():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login_view'))
-    return redirect(url_for('channels_view'))
+    return redirect(url_for('work_channels_view'))
 
 
 # サインアップページの表示
@@ -90,6 +90,7 @@ def login_process():
 
     # ユーザーをデータベースから取得
     user = User.find_by_email(email)
+    print(user)
     if user is None:
         flash('このユーザーは存在しません。')
         return redirect(url_for('login_view'))
@@ -106,7 +107,8 @@ def login_process():
         return redirect(url_for('access_denied'))
 
     # ログイン成功
-    session['uid'] = user['user_id']
+    user_id = user['user_id']
+    session['user_id'] = user_id
     if user['is_admin'] == True:
         session['role'] = 'admin'
         return redirect(url_for('admin_dashboard'))
@@ -157,6 +159,85 @@ def private_channels_view():
         private_channels.reverse()
         print(private_channels)
         return render_template('utils/private_channels.html', channels = private_channels)
+
+
+# チャンネルの作成(work)
+@app.route('/works_channels', methods=['POST'])
+def create_work_channels():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    work_channel_name = request.form.get('work_channelTitle')
+    distinction_type_id = 1
+    work_channel = Channel.find_by_name(work_channel_name)
+    if work_channel == None:
+        Channel.create(user_id, work_channel_name, distinction_type_id)
+        return redirect(url_for('work_channels_view'))
+    else:
+        error = '既に同じ名前のチャンネルが存在しています'
+        return render_template('error/error.html', error_message=error) #チームに確認
+
+
+# チャンネルの作成(private)
+@app.route('/private_channels', methods=['POST'])
+def create_private_channels():
+    user_id = session.get('user_id')
+    if user_id in None:
+        return redirect(url_for('login_view'))
+    private_channel_name = request.form.get('private_channelTitle')
+    distinction_type_id = 2
+    private_channel = Channel.find_by_name(private_channel_name)
+    if private_channel == None:
+        Channel.create(user_id, private_channel_name, distinction_type_id)
+        return redirect(url_for('private_channels_view'))
+    else:
+        error = '既に同じ名前のチャンネルが存在しています'
+        return render_template('error/error.html', error_message=error)
+
+
+# トーク画面の表示(work)
+@app.route('/works_chat/<channel_id>/messages', methods=['GET'])
+def work_chat_view(channel_id):
+    user_id = session.get('user_id')
+    role = session.get("role")
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    if role not in ['general_user', 'admin']:
+        flash('アクセス権限がありません。')
+        return redirect(url_for('access_denied'))
+    # チャンネル情報とメッセージ取得
+    channel = Channel.find_by_channels_id(channel_id)
+    print(channel)
+    if not channel:
+        flash('チャンネルが存在しません。')
+        return redirect(url_for('access_denied'))
+    messages = Message.getMessagesByChannel(channel_id) # type: ignore
+    print(messages)
+    print(user_id)
+    return render_template('utils/works_chat.html', messages=messages, channel=channel, user_id=user_id)
+
+
+# トーク画面の表示(# チャンネルの作成(private)
+@app.route('/private_chat/<channel_id>/messages', methods=['GET'])
+def private_chat_view(channel_id):
+    user_id = session.get('user_id')
+    role = session.get("role")
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    if role not in ['general_user', 'admin']:
+        flash('アクセス権限がありません。')
+        return redirect(url_for('access_denied'))
+    # チャンネル情報とメッセージ取得
+    channel = Channel.find_by_channels_id(channel_id)
+    print(channel)
+    if not channel:
+        flash('チャンネルが存在しません。')
+        return redirect(url_for('access_denied'))
+    messages = Message.getMessagesByChannel(channel_id) # type: ignore
+    print(messages)
+    print(user_id)
+    return render_template('utils/private_chat.html', messages=messages, channel=channel, user_id=user_id)
+
 
 
 # アプリケーション起動

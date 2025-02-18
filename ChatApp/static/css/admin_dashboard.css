@@ -62,7 +62,7 @@ body {
     line-height: 70px;
 }
 
-/* ログインボタン */
+/* ユーザー追加ボタン */
 .useradd-button {
     position: absolute;
     width: 222px;
@@ -75,9 +75,16 @@ body {
     background: #4794FF;
     border: none;
     border-radius: 10px;
+    text-decoration: none;
 }
 
-/* ログインボタンにカーソルがある時 */
+/* ボタンにカーソルがある時 */
 .useradd-button:hover {
     background-color: #3C53FF;
+}
+
+p {
+    margin-top: 5px;
+    margin-bottom: 0%;
+    text-align: center;
 }
