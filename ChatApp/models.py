@@ -74,7 +74,7 @@ class Channel:
         finally:
             db_pool.release(conn)
 
-    
+
     @classmethod
     def get_all(cls, distinction_type_id):
         conn = db_pool.get_conn()
@@ -90,11 +90,12 @@ class Channel:
         finally:
             db_pool.release(conn)
 
-    def find_by_channels_id(cls, channels_id):
+
+    def find_by_channels_id(channels_id):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM channels WHERE id=%s;"
+                sql = "SELECT * FROM channels WHERE channel_id = %s;"
                 cur.execute(sql, (channels_id,))
                 channel = cur.fetchone()
                 return channel
@@ -103,6 +104,7 @@ class Channel:
             abort(500)
         finally:
             db_pool.release(conn)   
+
 
     @classmethod
     def find_by_name(cls, channels_name):
@@ -134,6 +136,7 @@ class Channel:
         finally:
             db_pool.release(conn)
 
+
     @classmethod
     def delete(cls, channels_id):
         conn = db_pool.get_conn()
@@ -148,3 +151,29 @@ class Channel:
         finally:
             db_pool.release(conn)
 
+# メッセージクラス
+class Message:
+    @staticmethod
+    def getMessagesByChannel(channels_id):
+        """
+        指定されたチャンネルのメッセージ一覧を取得する関数を定義
+        """
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor(pymysql.cursors.DictCursor) as cur:
+                sql = """
+                    SELECT m.message_id, u.user_id, u.user_name, m.message, m.fixed_message_id, m.created_at
+                    FROM messages AS m
+                    INNER JOIN users AS u ON m.user_id = u.user_id
+                    WHERE m.channel_id = %s
+                    ORDER BY m.created_at ASC;
+                """
+                cur.execute(sql, (channels_id,))
+                messages = cur.fetchall()
+                return messages
+        except pymysql.Error as e:
+            print(f"エラー: {e}")
+            abort(500)
+
+        finally:
+            db_pool.release(conn)

@@ -27,6 +27,6 @@
         </script>
         <script src="{{url_for('static',filename='js/pagination.js')}}" type="module"></script>
         <script src="{{url_for('static',filename='js/delete-user.js')}}" type="module"></script>
-        <button type="submit" class="useradd-button">ユーザー追加</button>
+        <a class="useradd-button" href="{{ url_for('signup_view') }}"><p>ユーザー追加</p></a>
     </body>
 </html>
