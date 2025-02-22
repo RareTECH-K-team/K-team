@@ -119,7 +119,7 @@ class Channel:
             print(f'エラーが発生しています：{e}')
             abort(500)
         finally:
-            db_pool.release(conn)
+            db_pool.release(conn)   
 
 
     @classmethod
