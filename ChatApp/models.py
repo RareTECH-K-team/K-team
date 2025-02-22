@@ -37,6 +37,22 @@ class User:
             db_pool.release(conn)
 
 
+    @classmethod
+    def get_all(cls, delete_flag):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT * FROM users WHERE is_admin = 0 AND delete_flag = %s;"
+                cur.execute(sql, (delete_flag,))
+                user = cur.fetchall()
+                return user
+        except pymysql.Error as e:
+            print(f'エラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+
     @staticmethod
     def getUser(email):
         """
@@ -154,6 +170,24 @@ class Channel:
 # メッセージクラス
 class Message:
     @staticmethod
+    def create(uid, cid, message):
+        """
+        新しいメッセージをDBに挿入
+        """
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "INSERT INTO messages (user_id, channel_id, message) VALUES (%s, %s, %s)"
+                cur.execute(sql, (uid, cid, message))
+                conn.commit()
+        except pymysql.Error as e:
+            print(f"エラーが発生しました: {e}")
+            return None
+        finally:
+            db_pool.release(conn)
+
+
+    @staticmethod
     def getMessagesByChannel(channels_id):
         """
         指定されたチャンネルのメッセージ一覧を取得する関数を定義
@@ -162,11 +196,21 @@ class Message:
         try:
             with conn.cursor(pymysql.cursors.DictCursor) as cur:
                 sql = """
-                    SELECT m.message_id, u.user_id, u.user_name, m.message, m.fixed_message_id, m.created_at
-                    FROM messages AS m
-                    INNER JOIN users AS u ON m.user_id = u.user_id
-                    WHERE m.channel_id = %s
-                    ORDER BY m.created_at ASC;
+                    SELECT
+                        m.message_id,
+                        u.user_id,
+                        u.user_name,
+                        m.message,
+                        m.fixed_message_id,
+                        m.created_at
+                    FROM
+                        messages AS m
+                    INNER JOIN
+                        users AS u ON m.user_id = u.user_id
+                    WHERE
+                        m.channel_id = %s
+                    ORDER BY
+                        m.created_at ASC;
                 """
                 cur.execute(sql, (channels_id,))
                 messages = cur.fetchall()
@@ -175,5 +219,21 @@ class Message:
             print(f"エラー: {e}")
             abort(500)
 
+        finally:
+            db_pool.release(conn)
+
+
+    @classmethod
+    def get_fixed_messages(cls):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT * FROM fixed_messages;"
+                cur.execute(sql)
+                fixed_messages = cur.fetchall()
+                return fixed_messages
+        except pymysql.Error as e:
+            print(f'エラーが発生しています：{e}')
+            abort(500)
         finally:
             db_pool.release(conn)

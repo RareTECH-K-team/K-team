@@ -31,7 +31,7 @@ http://localhost:55000
 │   ├── models.py
 │   ├── static          # 静的ファイル用ディレクトリ
 │   ├── templates       # Template(HTML)用ディレクトリ
-│   └── util
+│   └── utils
 ├── Docker
 │   ├── Flask
 │   │   └── Dockerfile # Flask(Python)用Dockerファイル

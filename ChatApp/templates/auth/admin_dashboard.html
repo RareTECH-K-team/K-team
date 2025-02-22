@@ -21,12 +21,30 @@
         <main class="main-container">
         </main>
         <h2 class="h2">ユーザー一覧</h2>
-        <script type="text/javascript">
-            // prettier-ignore
-            const user = JSON.parse('{{ user|tojson }}');
-        </script>
-        <script src="{{url_for('static',filename='js/pagination.js')}}" type="module"></script>
+        <ul class="user-list">
+            <script type="text/javascript">
+                const users = JSON.parse('{{ users|tojson }}');
+                // ユーザーを古い順にソートする関数
+                const sortUsersByCreatedAt = (users) => {
+                    return users.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+                };
+                const createUsersList = () => {
+                    const ul = document.querySelector(".user-list");
+                    ul.innerHTML = "";
+                    // ユーザーを古い順にソート
+                    const sortedUsers = sortUsersByCreatedAt(users);
+                    sortedUsers.forEach((users) => {
+                        const a = document.createElement("a");
+                        const li = document.createElement("li");
+                        a.innerText = users.user_name;
+                        li.appendChild(a);
+                        ul.appendChild(li);
+                    });
+                };
+                createUsersList();
+            </script>
+        </ul>
         <script src="{{url_for('static',filename='js/delete-user.js')}}" type="module"></script>
-        <a class="useradd-button" href="{{ url_for('signup_view') }}"><p>ユーザー追加</p></a>
+        <a class="useradd-button" href="{{ url_for('signup_view') }}"><p class="p-user">ユーザー追加</p></a>
     </body>
 </html>

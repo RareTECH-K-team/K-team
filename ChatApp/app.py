@@ -109,10 +109,10 @@ def login_process():
     # ログイン成功
     user_id = user['user_id']
     session['user_id'] = user_id
-    if user['is_admin'] == True:
+    if user['is_admin'] == 1:
         session['role'] = 'admin'
-        return redirect(url_for('admin_dashboard'))
-    elif user['is_admin'] == False:
+        return redirect(url_for('admin_dashboard_view'))
+    elif user['is_admin'] == 0:
         session['role'] = 'general_user'
         return redirect(url_for('work_channels_view'))
     else:
@@ -128,11 +128,15 @@ def logout():
 
 # 管理者ダッシュボード
 @app.route('/admin_dashboard', methods=['GET'])
-def admin_dashboard():
+def admin_dashboard_view():
     if session.get('role') != 'admin':
         flash('管理者のみアクセス可能です。')
         return redirect(url_for('access_denied'))
-    return render_template('auth/admin_dashboard.html')
+    else:
+        all_users = User.get_all(0)
+        all_users.reverse()
+        print(all_users)
+        return render_template('auth/admin_dashboard.html', users = all_users)
 
 
 # チャンネル画面（一般ユーザー_work）
@@ -182,7 +186,7 @@ def create_work_channels():
 @app.route('/private_channels', methods=['POST'])
 def create_private_channels():
     user_id = session.get('user_id')
-    if user_id in None:
+    if user_id is None:
         return redirect(url_for('login_view'))
     private_channel_name = request.form.get('private_channelTitle')
     distinction_type_id = 2
@@ -206,18 +210,20 @@ def work_chat_view(channel_id):
         flash('アクセス権限がありません。')
         return redirect(url_for('access_denied'))
     # チャンネル情報とメッセージ取得
-    channel = Channel.find_by_channels_id(channel_id)
-    print(channel)
-    if not channel:
+    channels = Channel.find_by_channels_id(channel_id)
+    print(channels)
+    if not channels:
         flash('チャンネルが存在しません。')
         return redirect(url_for('access_denied'))
     messages = Message.getMessagesByChannel(channel_id) # type: ignore
+    fixed_messages = Message.get_fixed_messages()
     print(messages)
+    print(fixed_messages)
     print(user_id)
-    return render_template('utils/works_chat.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('utils/works_chat.html', messages=messages, channels=channels, user_id=user_id, fixed_messages=fixed_messages)
 
 
-# トーク画面の表示(# チャンネルの作成(private)
+# トーク画面の表示(private)
 @app.route('/private_chat/<channel_id>/messages', methods=['GET'])
 def private_chat_view(channel_id):
     user_id = session.get('user_id')
@@ -228,15 +234,48 @@ def private_chat_view(channel_id):
         flash('アクセス権限がありません。')
         return redirect(url_for('access_denied'))
     # チャンネル情報とメッセージ取得
-    channel = Channel.find_by_channels_id(channel_id)
-    print(channel)
-    if not channel:
+    channels = Channel.find_by_channels_id(channel_id)
+    print(channels)
+    if not channels:
         flash('チャンネルが存在しません。')
         return redirect(url_for('access_denied'))
     messages = Message.getMessagesByChannel(channel_id) # type: ignore
     print(messages)
     print(user_id)
-    return render_template('utils/private_chat.html', messages=messages, channel=channel, user_id=user_id)
+    return render_template('utils/private_chat.html', messages=messages, channels=channels, user_id=user_id)
+
+
+# メッセージ作成（仕事用）
+@app.route('/works_chat/<channel_id>/messages', methods=['POST'])
+def works_create_message(channel_id):
+    uid = session.get('user_id')
+    if uid is None:
+        return redirect(url_for('login_view'))
+    message = request.form.get('message')
+    if message:
+        Message.create(uid, channel_id, message)  # Message モデルを使用
+    # メッセージとチャンネル情報を取得
+    channel = Channel.find_by_channels_id(channel_id)
+    messages = Message.getMessagesByChannel(channel_id)
+    return render_template('utils/works_chat.html', messages=messages, channels=channel, user_id=uid)
+
+
+# メッセージ作成（プライベート用）
+@app.route('/private_chat/<channel_id>/messages', methods=['POST'])
+def private_create_message(channel_id):
+    print(channel_id)
+    uid = session.get('user_id')
+    if uid is None:
+        return redirect(url_for('login_view'))
+    message = request.form.get('message')
+    if message:
+        Message.create(uid, channel_id, message)
+    # メッセージとチャンネル情報を取得
+    channel = Channel.find_by_channels_id(channel_id)
+    print(channel)
+    messages = Message.getMessagesByChannel(channel_id)
+    print(messages)
+    return render_template('utils/private_chat.html', messages=messages, channels=channel, user_id=uid)
 
 
 

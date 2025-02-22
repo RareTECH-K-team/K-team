@@ -63,6 +63,69 @@
         function closeModal() {
             document.getElementById("modal").style.display = "none";
         }
+        // チャンネル作成処理を追加
+        document.addEventListener("DOMContentLoaded", function () {
+            // 「作成」ボタンがクリックされたときの処理
+            document.querySelector(".create-button").addEventListener("click", async function () {
+                const channelName = document.getElementById("channel-name").value.trim();
+              // 入力されたチャンネル名を取得し、空白を除去↑
+                if (!channelName) {
+                    alert("チャンネル名を入力してください"); // 未入力の場合は警告
+                    return;
+                }
+                try {
+                    console.log("チャンネル作成リクエスト送信中...");
+                    // サーバーに送るデータを作成
+                    const formData = new FormData();
+                    formData.append("work_channelTitle", channelName);
+                    // チャンネル作成のリクエストを送信
+                    const response = await fetch("/works_channels", {
+                        method: "POST",
+                        body: formData
+                    });
+                    // エラーが返ってきた場合F12で確認
+                    if (!response.ok) {
+                        console.error("サーバーエラー:", response.status, response.statusText);
+                        alert("チャンネル作成に失敗しました");
+                        return;
+                    }
+                    console.log("チャンネル作成成功");
+                    // 成功時にページをリロード
+                    window.location.reload();
+                } catch (error) {
+                    console.error("エラー:", error);
+                    alert("チャンネル作成に失敗しました。もう一度試してください。");
+                }
+            });
+        });
+
+        /*document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".create-button").addEventListener("click", function () {
+                const channelName = document.getElementById("channel-name").value.trim();
+                if (!channelName) {
+                    alert("チャンネル名を入力してください");
+                    return;
+                }
+                const formData = new FormData();
+                formData.append("work_channelTitle", channelName);
+                fetch("/works_channels", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        throw new Error(data.error);
+                    }
+                    channels.push({
+                        channel_id: data.channel_id,
+                        channel_name: data.channel_name
+                    });
+                    createChannelsList();
+                    closeModal();
+                })
+            });
+        });*/
     </script>
 </body>
 </html>
