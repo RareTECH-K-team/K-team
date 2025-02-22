@@ -175,5 +175,72 @@ class Message:
             print(f"エラー: {e}")
             abort(500)
 
+db_pool = DB.init_db_pool()
+
+class Message:
+    """
+    メッセージ関連のデータ操作
+    """
+    @staticmethod
+    def create(uid, cid, message):
+        """
+        新しいメッセージをDBに挿入
+        """
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "INSERT INTO messages (user_id, channel_id, message) VALUES (%s, %s, %s)"
+                cur.execute(sql, (uid, cid, message))
+                conn.commit()
+        except pymysql.Error as e:
+            print(f"エラーが発生しました: {e}")
+            return None
+        finally:
+            db_pool.release(conn)
+
+    @staticmethod
+    def getMessagesByChannel(channel_id):
+        """
+        指定されたチャンネルのメッセージ一覧を取得
+        """
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor(pymysql.cursors.DictCursor) as cur:
+                sql = """
+                    SELECT m.message_id, u.user_id, u.user_name, m.message, m.created_at
+                    FROM messages AS m
+                    INNER JOIN users AS u ON m.user_id = u.user_id
+                    WHERE m.channel_id = %s
+                    ORDER BY m.created_at ASC;
+                """
+                cur.execute(sql, (channel_id,))
+                messages = cur.fetchall()
+                return messages
+        except pymysql.Error as e:
+            print(f"エラーが発生しました: {e}")
+            return None
+        finally:
+            db_pool.release(conn)
+
+
+class Channel:
+    """
+    チャンネル関連のデータ操作
+    """
+    @classmethod
+    def find_by_channels_id(cls, channel_id):
+        """
+        チャンネルIDからチャンネルを検索
+        """
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor(pymysql.cursors.DictCursor) as cur:
+                sql = "SELECT * FROM channels WHERE channel_id = %s;"
+                cur.execute(sql, (channel_id,))
+                channel = cur.fetchone()
+                return channel if channel else None
+        except pymysql.Error as e:
+            print(f'エラーが発生しました: {e}')
+            return None
         finally:
             db_pool.release(conn)

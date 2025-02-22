@@ -259,6 +259,45 @@ def private_chat_view(channel_id):
     print(user_id)
     return render_template('utils/private_chat.html', messages=messages, channel=channel, user_id=user_id)
 
+# メッセージ作成（仕事用）
+@app.route('/works_chat/<channel_id>/messages', methods=['POST'])
+def works_create_message(channel_id):
+    uid = session.get('user_id')
+    if uid is None:
+        return redirect(url_for('login_view'))
+
+    message = request.form.get('message')
+    if message:
+        Message.create(uid, channel_id, message)  # Message モデルを使用
+
+    # メッセージとチャンネル情報を取得
+    channel = Channel.find_by_channels_id(channel_id)
+    messages = Message.getMessagesByChannel(channel_id)
+
+    return render_template('utils/works_chat.html', messages=messages, channel=channel, user_id=uid)
+
+
+# メッセージ作成（プライベート用）
+@app.route('/private_chat/<channel_id>/messages', methods=['POST'])
+def private_create_message(channel_id):
+    uid = session.get('user_id')
+    if uid is None:
+        return redirect(url_for('login_view'))
+
+    message = request.form.get('message')
+    if message:
+        Message.create(uid, channel_id, message)
+
+    # メッセージとチャンネル情報を取得
+    channel = Channel.find_by_channels_id(channel_id)
+    messages = Message.getMessagesByChannel(channel_id)
+
+    return render_template('utils/private_chat.html', messages=messages, channel=channel, user_id=uid)
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
+
 
 # アプリケーション起動
 if __name__ == '__main__':
