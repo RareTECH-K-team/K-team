@@ -119,13 +119,6 @@ def login_process():
         return redirect(url_for('access_denied'))
 
 
-# ログアウト処理
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login_view'))
-
-
 # 管理者ダッシュボード
 @app.route('/admin_dashboard', methods=['GET'])
 def admin_dashboard_view():
@@ -137,6 +130,14 @@ def admin_dashboard_view():
         all_users.reverse()
         print(all_users)
         return render_template('auth/admin_dashboard.html', users = all_users)
+
+
+# ログアウト処理
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login_view'))
+
 
 
 # チャンネル画面（一般ユーザー_work）
