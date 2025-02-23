@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>トーク画面_プライベート</title>
+        <link rel="stylesheet" href="../../static/css/private_chat.css">
+        <link rel="icon" href="{{url_for('static',filename='img/favicon.ico')}}" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;900&family=M+PLUS+1:wght@200&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-inner">
+                <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
+                <div id="channel-header">
+                    <p class="header-chatroom-name" id="chatroom-name">{{ channels.name }}</p>
+                </div>
+                <div class="channel-icon-header1" id="channel-header">
+                    <a class="home-hashtag" href="{{ url_for('private_channels_view') }}"><img src="../../static/img/Home Hashtag.png" class="home-hashtag" /></a>
+                </div>
+                <div class="channel-icon-header2" id="channel-header">
+                    <a class="logout" href="{{ url_for('logout') }}" ><img src="../../static/img/Log out.png" class="logout" /></a>
+                </div>
+            </div>
+        </header>
+        <main class="main-container">
+            <div id="message-area">
+                {% if messages|length > 0 %} {% for message in messages %} {% if
+                message.uid == uid %}
+                <div class="my-messages">
+                    <p class="my-user-name">{{ message.user_name }}</p>
+                    <p class="box box-right">{{ message.message }}</p>
+                </div>
+                {% else %}
+                <div class="messages">
+                <p class="user-name">{{ message.user_name }}</p>
+                <p class="box box-left">{{ message.message }}</p>
+                </div>
+                {% endif %} {% endfor %} {% else %}
+                <p id="no-message">まだメッセージがありません</p>
+                {% endif %}
+            </div>
+            <div class="typing-box-wrapper">
+                <form class="typing-box" method="POST" name="newMessageForm">
+                    <div class="typing-area">
+                        <textarea class="typing-box" name="message" id="message" autofocus></textarea>
+                        <input type="hidden" name="channel_id" value="{{ channels.id }}" />
+                        <button type="submit" id="add-message-button">
+                            <input type="image" src="../../static/img/Send.png" class="send-button" />
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <script type="text/javascript">
+            const user_id = JSON.parse('{{ user_id|tojson }}');
+        </script>
+        <script src="{{url_for('static',filename='js/scroll-message.js')}}" type="text/javascript"></script>
+        <img src="../../static/img/channel_P1.png" class="private-img-background1" />
+        <img src="../../static/img/channel_P2.png" class="private-img-background2" />
+        <img src="../../static/img/channel_P3.png" class="private-img-background3" />
+    </body>
+</html>

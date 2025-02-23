@@ -1,0 +1,248 @@
+/* ボディ部分 */
+body {
+    box-sizing: border-box;
+    position: relative;
+    margin: auto;
+    min-height: 100vh;
+    width: 100vw;
+    background: #FFFBFD;
+    border: 5px solid #F7C6DB;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    height: 80px;
+    z-index: 1;
+}
+
+/* ヘッダー部分 */
+.header-inner{
+    height: 80px;
+    display:flex;
+    align-items: center;
+    background-color: #F7C6DB;
+}
+
+/* アプリ名 */
+.app-name {
+    position: fixed;
+    left: 2rem;
+    margin: 0;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 70px;
+    color: #FFFFFF;
+}
+
+/* アプリ名小 */
+.app-name span {
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.header-chatroom-name {
+    position: fixed;
+    width: 100vw;
+    top: 0px;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+}
+
+.channel-icon-header1 {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    right: 7rem;
+    margin: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+.home-hashtag {
+    height: 57px;
+}
+
+.channel-icon-header2 {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    right: 2rem;
+    margin: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+.logout {
+    height: 57px;
+}
+
+
+/* メッセージ表示部分 */
+
+
+.main-container {
+    z-index: 2;
+}
+
+#message-area {
+    margin-top: 2vh;
+    min-height: 73vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+}
+
+.user-name {
+    font-size: 10px;
+    color: grey;
+    margin: 1px 0;
+}
+
+.my-messages {
+    display: flex;
+    flex-direction: column;
+    padding-right: 30px;
+}
+
+.my-user-name {
+    font-size: 10px;
+    color: grey;
+    margin: 1px 0;
+    text-align: right;
+}
+
+.box {
+    position: relative;
+    width: 60%;
+    margin: 0;
+    padding: 0.7em 0 0.4em 1em;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: 0.1em;
+    white-space: pre-wrap;
+    border-radius: 10px;
+}
+
+.box-left {
+    border: 2px solid #51FE00;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    color: var(--navy_blue);
+}
+
+.box-right {
+    border: 2px solid #FF6BE4;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    margin-left: auto;
+}
+
+#no-message {
+    margin: auto;
+}
+
+/* メッセージ入力部分 */
+
+.typing-box-wrapper {
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-left: 20px;
+    background-color:#EBEBEB;
+    height: 70px;
+    border-radius: 10px;/*角丸*/
+    margin-bottom: 1rem;
+}
+
+
+.fixed-messages-area {
+    display: flex;
+}
+
+
+.typing-area {
+    display: flex;
+}
+
+.typing-box {
+    margin-top: 12px;
+    margin-right: 10px;
+    width: calc(100% - 20px);
+    height: 48px;
+    border-radius: 10px;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+#add-message-button {
+    margin-top: 12px;
+    width: 90px;
+    height: 48px;
+    font-size: 16px;
+    color: black;
+    background: #FFE9F2;
+    text-align: center;
+    border: 0px solid #FFE9F2;
+    border-radius: 10px;
+}
+
+#add-message-button:hover {
+    background-color: #F7C6DB;
+}
+
+.send-button {
+    margin-top: 5px;
+    width: 30px;
+}
+
+
+/* フッター部分 */
+
+.footer {
+    position: sticky;
+    z-index: 3;
+}
+
+/* 画像設定 */
+.private-img-background1 {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    right: 2rem;
+    top: 6rem;
+    z-index: -2;
+}
+
+.private-img-background2 {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    left: 2rem;
+    top: 7rem;
+    z-index: -2;
+}
+
+.private-img-background3 {
+    position: fixed;
+    width: 280px;
+    height: 280px;
+    left: 5rem;
+    top: 23rem;
+    z-index: -2;
+}

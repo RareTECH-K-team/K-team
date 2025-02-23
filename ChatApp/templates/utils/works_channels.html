@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビジネスチャンネル一覧画面</title>
+    <link rel="stylesheet" href="../../static/css/works_channel.css">
+    <link rel="icon" href="../../static/img/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;900&family=M+PLUS+1:wght@200&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
+            <div class="channel-icon-header2" id="channel-header">
+                <a class="logout" href="{{ url_for('logout') }}" ><img src="../../static/img/Log out.png" class="logout" /></a>
+            </div>
+        </div>
+    </header>
+    <nav class="tab-menu">
+        <a class="tab-works">WORKS</a>
+        <a class="tab-private" href="{{ url_for('private_channels_view') }}">PRIVATE</a>
+    </nav>
+    <div class="container">
+        <ul class="channel-list">
+            <script type="text/javascript">
+                const channels = JSON.parse('{{ channels|tojson }}');
+                const createChannelsList = () => {
+                    const ul = document.querySelector(".channel-list");
+                    // 一度チャンネルリストを空にする
+                    ul.innerHTML = "";
+                    // 各チャンネル要素の作成
+                    channels.forEach((channels) => {
+                        const a = document.createElement("a");
+                        const li = document.createElement("li");
+                        const channelURL = `/works_chat/${channels.channel_id}/messages`;
+                        a.innerText = channels.channel_name;
+                        a.setAttribute("href", channelURL);
+                        li.appendChild(a);
+                        ul.appendChild(li); // ulにliを追加
+                    });
+                };
+                createChannelsList();
+            </script>
+        </ul>
+        <!--<script src="{{url_for('static',filename='js/pagination.js')}}" type="module"></script> -->
+        <div class="add-button" onclick="openModal()">＋</div>
+    </div>
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <label for="channel-name">チャンネル名</label>
+            <input type="text" id="channel-name" placeholder="チャンネル名を入力">
+            <button class="create-button">作成</button>
+            <button class="close-button" onclick="closeModal()">閉じる</button>
+        </div>
+    </div>
+    <script>
+        function openModal() {
+            document.getElementById("modal").style.display = "flex";
+        }
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+        // チャンネル作成処理を追加
+        document.addEventListener("DOMContentLoaded", function () {
+            // 「作成」ボタンがクリックされたときの処理
+            document.querySelector(".create-button").addEventListener("click", async function () {
+                const channelName = document.getElementById("channel-name").value.trim();
+              // 入力されたチャンネル名を取得し、空白を除去↑
+                if (!channelName) {
+                    alert("チャンネル名を入力してください"); // 未入力の場合は警告
+                    return;
+                }
+                try {
+                    console.log("チャンネル作成リクエスト送信中...");
+                    // サーバーに送るデータを作成
+                    const formData = new FormData();
+                    formData.append("work_channelTitle", channelName);
+                    // チャンネル作成のリクエストを送信
+                    const response = await fetch("/works_channels", {
+                        method: "POST",
+                        body: formData
+                    });
+                    // エラーが返ってきた場合F12で確認
+                    if (!response.ok) {
+                        console.error("サーバーエラー:", response.status, response.statusText);
+                        alert("チャンネル作成に失敗しました");
+                        return;
+                    }
+                    console.log("チャンネル作成成功");
+                    // 成功時にページをリロード
+                    window.location.reload();
+                } catch (error) {
+                    console.error("エラー:", error);
+                    alert("チャンネル作成に失敗しました。もう一度試してください。");
+                }
+            });
+        });
+
+        /*document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".create-button").addEventListener("click", function () {
+                const channelName = document.getElementById("channel-name").value.trim();
+                if (!channelName) {
+                    alert("チャンネル名を入力してください");
+                    return;
+                }
+                const formData = new FormData();
+                formData.append("work_channelTitle", channelName);
+                fetch("/works_channels", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        throw new Error(data.error);
+                    }
+                    channels.push({
+                        channel_id: data.channel_id,
+                        channel_name: data.channel_name
+                    });
+                    createChannelsList();
+                    closeModal();
+                })
+            });
+        });*/
+    </script>
+</body>
+</html>
