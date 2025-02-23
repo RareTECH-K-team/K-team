@@ -126,7 +126,6 @@ def logout():
     return redirect(url_for('login_view'))
 
 
-
 # 管理者ダッシュボード
 @app.route('/admin_dashboard', methods=['GET'])
 def admin_dashboard_view():
