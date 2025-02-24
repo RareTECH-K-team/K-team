@@ -61,7 +61,7 @@ def signup_process():
             User.create(user_name, email, password)
             UserId = str(user_id)
             session['user_id'] = UserId
-            session['role'] = 'general_user'
+            session['role'] = 'admin'
             return redirect(url_for('admin_dashboard_view'))
         return redirect(url_for('signup_process'))
 
