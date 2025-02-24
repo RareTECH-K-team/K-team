@@ -29,15 +29,15 @@
         <main class="main-container">
             <div id="message-area">
                 {% if messages|length > 0 %} {% for message in messages %} {% if
-                message.uid == uid %}
+                message.user_id == user_id %}
                 <div class="my-messages">
                     <p class="my-user-name">{{ message.user_name }}</p>
                     <p class="box box-right">{{ message.message }}</p>
                 </div>
                 {% else %}
                 <div class="messages">
-                <p class="user-name">{{ message.user_name }}</p>
-                <p class="box box-left">{{ message.message }}</p>
+                    <p class="user-name">{{ message.user_name }}</p>
+                    <p class="box box-left">{{ message.message }}</p>
                 </div>
                 {% endif %} {% endfor %} {% else %}
                 <p id="no-message">まだメッセージがありません</p>
