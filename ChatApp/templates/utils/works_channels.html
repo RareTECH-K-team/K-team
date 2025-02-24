@@ -98,34 +98,6 @@
                 }
             });
         });
-
-        /*document.addEventListener("DOMContentLoaded", function () {
-            document.querySelector(".create-button").addEventListener("click", function () {
-                const channelName = document.getElementById("channel-name").value.trim();
-                if (!channelName) {
-                    alert("チャンネル名を入力してください");
-                    return;
-                }
-                const formData = new FormData();
-                formData.append("work_channelTitle", channelName);
-                fetch("/works_channels", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.success) {
-                        throw new Error(data.error);
-                    }
-                    channels.push({
-                        channel_id: data.channel_id,
-                        channel_name: data.channel_name
-                    });
-                    createChannelsList();
-                    closeModal();
-                })
-            });
-        });*/
     </script>
 </body>
 </html>
