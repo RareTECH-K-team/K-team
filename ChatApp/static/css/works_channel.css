@@ -148,6 +148,11 @@ body {
     text-align: center;
 }
 
+.channel-list a {
+    text-decoration: none;
+    color: #000;
+}
+
 .add-button {
     display: flex; /* ボタン内のテキストを中央揃えにするためにフレックスボックスを使用 */
     justify-content: center; /* 水平方向の中央揃え */
