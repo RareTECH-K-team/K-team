@@ -1,0 +1,19 @@
+/* ログイン画面(削除された(退職)ユーザーの場合)のCSS */
+
+/* ボディ部分 */
+body {
+    margin: auto;
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(0deg, #FFFFFF, #FFFFFF);
+}
+
+/* 文字設定 */
+.denied {
+    position: absolute;
+    left: calc(50% - 779px/2 + 0.5px);
+    top: 332px;
+    font-weight: 400;
+    font-size: 60px;
+    color: #000000;
+}

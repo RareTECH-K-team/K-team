@@ -1,0 +1,182 @@
+/* 全体のスタイル */
+body {
+    background-color: #66F7FF;
+    margin: 0;
+    padding: 0;
+}
+
+/* アプリ名を左上端に固定 */
+.app-name {
+    position: absolute;  /* 絶対配置 */
+    top: 0;              /* 画面の上端に配置 */
+    left: 0;             /* 画面の左端に配置 */
+    margin: 0;
+    padding-left: 1rem; /* 左側に余白を残す */          /* 余白なし */
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 70px;
+}
+
+.app-name span {
+    font-size: 18px;
+}
+
+/* コンテナ */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    border-radius: 10px;
+    padding-top: 50px; /* アプリ名の高さ分を考慮 */
+}
+
+.flashes-container {
+    margin-top: 27rem;
+    min-height: 300%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* フォームコンテナ */
+.form-container {
+    position: absolute;
+    width: 800px;
+    height: 620px;
+    left: calc(50% - 800px/2 + 0.5px);
+    top: calc(50% - 600px/2 + 0.5px);
+    background: #FFFBFB;
+    border-radius: 20px;
+}
+
+.label-username {
+    position: absolute;
+    left: calc(50% - 136px/2 - 147px);
+    top: 2rem;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+#username {
+    box-sizing: border-box;
+    position: absolute;
+    width: 444px;
+    height: 40px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 4rem;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+
+.label-email {
+    position: absolute;
+    left: calc(50% - 136px/2 - 147px);
+    top: 8rem;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+#email {
+    box-sizing: border-box;
+    position: absolute;
+    width: 444px;
+    height: 40px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 10rem;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+
+.label-password {
+    position: absolute;
+    left: calc(50% - 136px/2 - 147px);
+    top: 14rem;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+#password {
+    box-sizing: border-box;
+    position: absolute;
+    width: 444px;
+    height: 40px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 16rem;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+
+.label-confirm-password {
+    position: absolute;
+    left: calc(50% - 136px/2 - 147px);
+    top: 20rem;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+#confirm-password {
+    box-sizing: border-box;
+    position: absolute;
+    width: 444px;
+    height: 40px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 22rem;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 10px;
+}
+
+.register-button {
+    position: absolute;
+    width: 444px;
+    height: 43px;
+    left: calc(50% - 444px/2 + 1px);
+    top: 29rem;
+    font-size: 24px;
+    color: #000000;
+    align-items: center;
+    background-color: #FFE2E2;
+    border: none;
+    border-radius: 10px;
+}
+
+.register-button:hover {
+    background-color: #ffa8a8;
+}
+
+.admin-link {
+    position: absolute;
+    font-size: 22px;
+    color: #000000;
+    text-decoration: none;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    top: 34rem;
+}
+
+.admin-link:hover {
+    text-decoration: underline;
+}
+
+.flashes {
+    margin: 0;
+    padding-inline-start: 0;
+    text-align: center;
+    font-size: 18px;
+    color: red;
+}

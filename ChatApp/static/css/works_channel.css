@@ -1,0 +1,240 @@
+body {
+    box-sizing: border-box;
+    position: relative;
+    margin: auto;
+    min-height: 100vh;
+    width: 100vw;
+    background: #FFFFFF;
+    border: 5px solid #00D9FF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    height: 80px;
+    z-index: 1;
+    z-index: 0; /* モーダルの後ろに配置 */
+}
+
+/* ヘッダー部分 */
+.header-inner{
+    height: 80px;
+    display:flex;
+    align-items: center;
+    background-color: #00D9FF;
+}
+
+/* アプリ名 */
+.app-name {
+    position: fixed;
+    left: 2rem;
+    margin: 0;
+    font-weight: 400;
+    font-size: 35px;
+    line-height: 70px;
+    color: #FFFFFF;
+}
+
+/* アプリ名小 */
+.app-name span {
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.channel-icon-header1 {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    right: 7rem;
+    margin: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+.home-hashtag {
+    height: 57px;
+}
+
+.channel-icon-header2 {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    right: 2rem;
+    margin: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+}
+
+.logout {
+    height: 57px;
+}
+
+/* タブメニューのスタイル */
+.tab-works {
+    width: calc(100%/2);
+    padding: 15px 0;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    float: left;
+    margin: 0;
+    background-color: #66E8FF;
+    text-decoration: none;
+}
+
+.tab-private {
+    width: calc(100%/2);
+    padding: 15px 0;
+    font-size: 20px;
+    text-align: center;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    color: gray;
+    float: right;
+    margin: 0;
+    background-color: #FFECEC;  /* プライベートタブはピンク */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: calc(80px + 70px);
+    left: 50%;
+    transform: translateX(-50%);
+    /* 高さの自動調整 & 上限を設ける */
+    height: auto;
+    max-height: calc(100vh - 55px - (80px + 70px)); /* 画面の高さ - 5px - 上のマージン */
+    /* コンテンツが超えた場合にスクロール可能に */
+    overflow-y: auto;
+}
+
+.channel-list {
+    width: 100%; /* 幅を親要素いっぱいに広げる */
+    flex-grow: 1; /* 残りのスペースを占める */
+    max-height: calc(100% - 50px); /* add-button の高さを考慮して最大高さを設定 */
+    padding: 0; /* 内側の余白をなくす */
+    margin: 0; /* 外側の余白をなくす */
+    list-style: none; /* リストのデフォルトのマーカーをなくす */
+    background-color: #fff; /* 背景色を白に設定 */
+    overflow-y: scroll; /* 縦方向のスクロールを許可 */
+    overflow-x: hidden; /* 横スクロールは非表示 */
+    position: relative; /* 相対位置指定 */
+    scrollbar-width: none; /* Firefox向けにスクロールバーを非表示 */
+    -ms-overflow-style: none; /* IE, Edge向けにスクロールバーを非表示 */
+}
+
+.channel-list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari向けにスクロールバーを非表示 */
+}
+
+.channel-list li {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    background: #CFF8FF;
+    width: calc(100% - 25px); /* 右に余白を作る */
+    text-align: center;
+}
+
+.channel-list a {
+    text-decoration: none;
+    color: #000;
+}
+
+.add-button {
+    display: flex; /* ボタン内のテキストを中央揃えにするためにフレックスボックスを使用 */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    width: 40px; /* ボタンの幅 */
+    height: 40px; /* ボタンの高さ */
+    border: 1px solid #000; /* ボタンの境界線 */
+    border-radius: 4px; /* 角を丸くする */
+    background: #fff; /* 背景色を設定 */
+    cursor: pointer; /* マウスカーソルをポインターに変更 */
+    font-size: 18px; /* フォントサイズ */
+    align-self: flex-start; /* リストの左端に配置 */
+    flex-shrink: 0; /* +ボタンがつぶれないようにする */
+    margin-top: 1px; /* チャンネルリストとの間に余白を作る */
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* ヘッダーより前面に表示 */
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    width: 600px;
+    height: 400px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.modal-content label {
+    display: block;
+    width: 80%;
+    margin: 0 auto 5px;
+    margin-top: 30px; /* ラベルの上に余白を作る */
+}
+
+.modal-content input{
+    width: 77%; /*ボタンとサイズをそろえる*/
+    margin-left: auto;
+    margin-right: auto;
+    height: 20px;
+    display: block;
+    padding: 10px;
+    border: 1px solid #0d0d0d;
+    border-radius: 4px;
+}
+
+.modal-content input {
+    margin-bottom: 80px;
+}
+
+.create-button {
+    background-color: #CFF8FF;
+    color: black;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.close-button {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #ccc;
+    border: none;
+    cursor: pointer;
+    display: block;
+}

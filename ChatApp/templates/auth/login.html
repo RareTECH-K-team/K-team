@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ログイン画面</title>
+        <link rel="stylesheet" href="../../static/css/login.css">
+        <link rel="icon" href="../../static/img/favicon.ico" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;900&family=M+PLUS+1:wght@200&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="auth-container">
+            <img src="../../static/img/login1.png" class="auth-right-background" />
+            <img src="../../static/img/login2.png" class="auth-left-background" />
+            <h1 class="app-name">WOPR <span>WORKS | PRIVATE</span></h1>
+            <div class="login-box">
+                <form action="/login" class="auth-form" method="post">
+                    <label class="label-email" for="email-input">メールアドレス</label>
+                    <input
+                        type="test"
+                        placeholder="Email"
+                        name="email"
+                        id="email-input"
+                    />
+                    <label class="label-password" for="password-input">パスワード</label>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        id="password-input"
+                    />
+                    <button type="submit" class="auth-button-bluegreen">ログイン</button>
+                </form>
+                <div class="auth-button-container">
+                    {% with messages = get_flashed_messages() %} {% if messages %}
+                    <ul class="flashes">
+                        {% for message in messages %}
+                        {{ message }}
+                        {% endfor %}
+                    </ul>
+                    {% endif %} {% endwith %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
